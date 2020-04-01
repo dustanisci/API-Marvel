@@ -17,25 +17,24 @@ public class Gallery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "gallery_id")
 	@JsonIgnore
-	private Long id;
+	private long id;
 
 	@ManyToOne
 	@JoinColumn(name="superhero_id")
 	private SuperHero superhero;
 
-	@Column(name="base64")
-	private String base64;
+	private String url;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public String getBase64() {
-		return base64;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setBase64(String base64) {
-		this.base64 = base64;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

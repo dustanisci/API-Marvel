@@ -23,37 +23,7 @@ public class SuperHero {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "superhero_id")
-	private Long id;
-	
-	@NotNull
-	@NotEmpty
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "codename")
-	private String codename;
-	
-	@Column(name = "earth")
-	private String earth;
-	
-	@Column(name = "job")
-	private String job;
-	
-	@Column(name = "genealogy")
-	private String genealogy;
-	
-	@Column(name = "race")
-	private String race;
-	
-	@Column(name = "team")
-	private String team;
-	
-	@Column(name = "first_show")
-	private String firstShow;
-	
-	public Long getId() {
-		return id;
-	}
+	private long id;
 	
 	@OneToMany(mappedBy="superhero", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@Column(name="gallery")
@@ -61,14 +31,18 @@ public class SuperHero {
 	@MapKey(name="id")
 	private Map<Long, Gallery> galleries = new HashMap<>();
 	
-	public Map<Long, Gallery> getGalleries() {
-		return galleries;
-	}
-
-	public void setGalleries(Map<Long, Gallery> galleries) {
-		this.galleries = galleries;
-	}
+	@NotNull
+	@NotEmpty
+	private String name;
 	
+	private String codename;
+	private String earth;
+	private String job;
+	private String genealogy;
+	private String race;
+	private String team;
+	private String firstShow;
+			
 	public String getName() {
 		return name;
 	}
@@ -131,6 +105,18 @@ public class SuperHero {
 
 	public void setFirstShow(String firstShow) {
 		this.firstShow = firstShow;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setGalleries(Map<Long, Gallery> galleries) {
+		this.galleries = galleries;
+	}
+		
+	public Map<Long, Gallery> getGalleries() {
+		return galleries;
 	}
 
 	public SuperHero update(Long id, SuperHeroRepository superHeroRepository) {

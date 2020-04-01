@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,21 +17,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marvel.model.SuperHero;
 import com.marvel.repository.SuperHeroRepository;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping({"/superhero", "/superhero/"})
 public class SuperHeroController {
 
 	@Autowired
 	private SuperHeroRepository superHeroRepository;
-	
+		
 	@GetMapping
-	public List<SuperHero> findAllByNameAsc() {
-		return superHeroRepository.findAll();
+	public Page<SuperHero> findAll(Pageable pageable, @RequestParam(required=false) String search){
+		if(search != null) {
+			return superHeroRepository.search(search, pageable);
+		}
+		return superHeroRepository.findAll(pageable);
 	}
 	
 	@GetMapping("/{id}")
@@ -50,7 +56,7 @@ public class SuperHeroController {
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid SuperHero superHeroReceived) {
+	public ResponseEntity<?> update(@PathVariable long id, @RequestBody @Valid SuperHero superHeroReceived) {
 		Optional<SuperHero> optional = superHeroRepository.findById(id);
 		if (optional.isPresent()) {
 			superHeroReceived.update(id, superHeroRepository);
@@ -61,7 +67,7 @@ public class SuperHeroController {
 	
 	@Transactional
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteId(@PathVariable Long id) {
+	public ResponseEntity<?> deleteId(@PathVariable long id) {
 		Optional<SuperHero> optional = superHeroRepository.findById(id);
 		if (optional.isPresent()) {
 			superHeroRepository.deleteById(id);
@@ -71,17 +77,15 @@ public class SuperHeroController {
 	}
 	
 	@Transactional
-	@DeleteMapping("/{ids}")
-	public ResponseEntity<?> deleteIds(@PathVariable List<String> ids) {
-		
-		for(String id : ids) {
-			Optional<SuperHero> optional = superHeroRepository.findById(Long.parseLong(id));
+	@DeleteMapping
+	public ResponseEntity<?> deleteIds(@RequestBody List<Long> ids) {
+		for(long id : ids) {
+			Optional<SuperHero> optional = superHeroRepository.findById(id);
 			
 			if (optional.isPresent()) {
-				superHeroRepository.deleteById(Long.parseLong(id));
+				superHeroRepository.deleteById(id);
 			}
 		}
-		
 		return ResponseEntity.ok().build();
 	}
 	
