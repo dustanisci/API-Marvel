@@ -1,4 +1,4 @@
-package com.marvel.model;
+package com.marvel.api.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import javax.persistence.OrderBy;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.marvel.repository.SuperHeroRepository;
+import com.marvel.api.repository.SuperHeroRepository;
 
 @Entity
 public class SuperHero {
@@ -24,17 +24,17 @@ public class SuperHero {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "superhero_id")
 	private long id;
-	
-	@OneToMany(mappedBy="superhero", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@Column(name="gallery")
+
+	@OneToMany(mappedBy = "superhero", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@Column(name = "gallery")
 	@OrderBy("id asc")
-	@MapKey(name="id")
+	@MapKey(name = "id")
 	private Map<Long, Gallery> galleries = new HashMap<>();
-	
+
 	@NotNull
 	@NotEmpty
 	private String name;
-	
+
 	private String codename;
 	private String earth;
 	private String job;
@@ -42,7 +42,24 @@ public class SuperHero {
 	private String race;
 	private String team;
 	private String firstShow;
-			
+
+	public SuperHero() {
+		
+	}
+	
+	public SuperHero(String name, String codename, String earth, String job, String genealogy, String race, String team,
+			String firstShow) {
+
+		this.setName(name);
+		this.setCodename(codename);
+		this.setEarth(earth);
+		this.setJob(job);
+		this.setGenealogy(genealogy);
+		this.setRace(race);
+		this.setTeam(team);
+		this.setFirstShow(firstShow);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -111,10 +128,14 @@ public class SuperHero {
 		return id;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public void setGalleries(Map<Long, Gallery> galleries) {
 		this.galleries = galleries;
 	}
-		
+
 	public Map<Long, Gallery> getGalleries() {
 		return galleries;
 	}
@@ -131,5 +152,5 @@ public class SuperHero {
 		superHero.setTeam(this.team);
 		return superHero;
 	}
-	
+
 }

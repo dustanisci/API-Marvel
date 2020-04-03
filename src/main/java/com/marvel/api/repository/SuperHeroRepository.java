@@ -1,4 +1,4 @@
-package com.marvel.repository;
+package com.marvel.api.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.marvel.model.SuperHero;
+import com.marvel.api.model.SuperHero;
 
 public interface SuperHeroRepository extends JpaRepository<SuperHero, Long> {
 	

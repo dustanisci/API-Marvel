@@ -1,4 +1,4 @@
-package com.marvel.config.security;
+package com.marvel.api.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
