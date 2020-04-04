@@ -1,5 +1,6 @@
 package com.marvel.api.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marvel.api.dto.SuperHeroDto;
 import com.marvel.api.model.SuperHero;
 import com.marvel.api.repository.SuperHeroRepository;
 
 @RestController
-@RequestMapping({ "/superhero", "/superhero/" })
+@RequestMapping("/superhero")
 public class SuperHeroController {
 
 	@Autowired
@@ -50,28 +50,17 @@ public class SuperHeroController {
 
 	@Transactional
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody SuperHeroDto superHeroDto) {
-		superHeroRepository.save(superHeroDto.parseToSuperHero());
+	public ResponseEntity<?> insert(@RequestBody SuperHero superHero) {
+		superHeroRepository.save(superHero);
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping
 	@Transactional
-	public ResponseEntity<?> update(@PathVariable long id, @RequestBody @Valid SuperHero superHero) {
-		Optional<SuperHero> optional = superHeroRepository.findById(id);
+	public ResponseEntity<?> update(@RequestBody @Valid SuperHero superHero) {
+		Optional<SuperHero> optional = superHeroRepository.findById(superHero.getId());
 		if (optional.isPresent()) {
-			superHero.update(id, superHeroRepository);
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.notFound().build();
-	}
-
-	@Transactional
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteId(@PathVariable long id) {
-		Optional<SuperHero> optional = superHeroRepository.findById(id);
-		if (optional.isPresent()) {
-			superHeroRepository.deleteById(id);
+			superHero.update(superHeroRepository.getOne(superHero.getId()));
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
@@ -82,8 +71,11 @@ public class SuperHeroController {
 	public ResponseEntity<?> deleteIds(@RequestBody List<Long> ids) {
 		for (long id : ids) {
 			Optional<SuperHero> optional = superHeroRepository.findById(id);
-
+			
 			if (optional.isPresent()) {
+				superHeroRepository.getOne(id).getGalleries().forEach((k, v) -> {
+					new File(v.getUrl()).delete();
+				});
 				superHeroRepository.deleteById(id);
 			}
 		}

@@ -15,8 +15,6 @@ import javax.persistence.OrderBy;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.marvel.api.repository.SuperHeroRepository;
-
 @Entity
 public class SuperHero {
 
@@ -44,9 +42,9 @@ public class SuperHero {
 	private String firstShow;
 
 	public SuperHero() {
-		
+
 	}
-	
+
 	public SuperHero(String name, String codename, String earth, String job, String genealogy, String race, String team,
 			String firstShow) {
 
@@ -58,6 +56,10 @@ public class SuperHero {
 		this.setRace(race);
 		this.setTeam(team);
 		this.setFirstShow(firstShow);
+	}
+
+	public SuperHero(long id) {
+		this.setId(id);
 	}
 
 	public String getName() {
@@ -140,8 +142,7 @@ public class SuperHero {
 		return galleries;
 	}
 
-	public SuperHero update(Long id, SuperHeroRepository superHeroRepository) {
-		SuperHero superHero = superHeroRepository.getOne(id);
+	public void update(SuperHero superHero) {
 		superHero.setCodename(this.codename);
 		superHero.setEarth(this.earth);
 		superHero.setFirstShow(this.firstShow);
@@ -150,7 +151,6 @@ public class SuperHero {
 		superHero.setName(this.name);
 		superHero.setRace(this.race);
 		superHero.setTeam(this.team);
-		return superHero;
 	}
 
 }

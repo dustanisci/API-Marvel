@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Gallery {
 
@@ -17,11 +19,16 @@ public class Gallery {
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name = "superhero_id")
+	@JoinColumn(name = "superhero_id", nullable = false)
+	@JsonIgnore
 	public SuperHero superhero;
 
 	private String url;
-	
+
+	public Gallery() {
+
+	}
+
 	public Gallery(String url, SuperHero superhero) {
 		this.setUrl(url);
 		this.setSuperhero(superhero);
@@ -46,5 +53,5 @@ public class Gallery {
 	public void setSuperhero(SuperHero superhero) {
 		this.superhero = superhero;
 	}
-	
+
 }

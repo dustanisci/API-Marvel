@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.marvel.api.model.Gallery;
 import com.marvel.api.model.SuperHero;
 
+import javassist.tools.rmi.ObjectNotFoundException;
+
 public class GalleryDto {
 
 	private long superHeroId;
@@ -39,9 +41,16 @@ public class GalleryDto {
 	}
 
 	public Gallery parseToGallery() {
-		SuperHero superHero = new SuperHero();
-		superHero.setId(superHeroId);
-		return new Gallery(url, superHero);
+		return new Gallery(url, new SuperHero(superHeroId));
+	}
+	
+	public String getExtension(MultipartFile image) throws ObjectNotFoundException {
+		if (image.getContentType().equals("image/jpeg") || image.getContentType().equals("image/jpg")) {
+			return ".jpg";
+		} else if (image.getContentType().equals("image/png")) {
+			return ".png";
+		}
+		throw new RuntimeException();
 	}
 
 }
