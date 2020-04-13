@@ -24,6 +24,7 @@ public class Gallery {
 	public SuperHero superhero;
 
 	private String url;
+	private String name;
 
 	public Gallery() {
 
@@ -33,6 +34,10 @@ public class Gallery {
 		this.setUrl(url);
 		this.setSuperhero(superhero);
 	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public long getId() {
 		return id;
@@ -40,6 +45,14 @@ public class Gallery {
 
 	public String getUrl() {
 		return url;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setUrl(String url) {

@@ -47,7 +47,6 @@ public class SuperHero {
 
 	public SuperHero(String name, String codename, String earth, String job, String genealogy, String race, String team,
 			String firstShow) {
-
 		this.setName(name);
 		this.setCodename(codename);
 		this.setEarth(earth);

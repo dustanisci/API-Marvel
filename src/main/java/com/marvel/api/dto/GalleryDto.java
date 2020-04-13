@@ -15,6 +15,7 @@ public class GalleryDto {
 	private long superHeroId;
 	private List<MultipartFile> images = new ArrayList<MultipartFile>();
 	private String url;
+	private String name;
 
 	public long getSuperHeroId() {
 		return superHeroId;
@@ -38,6 +39,14 @@ public class GalleryDto {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Gallery parseToGallery() {

@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +43,7 @@ public class SuperHeroController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<SuperHero> getEntity(@PathVariable Long id) {
+	public ResponseEntity<SuperHero> getEntity(@PathVariable(required = true) Long id) {
 		Optional<SuperHero> optional = superHeroRepository.findById(id);
 		if (optional.isPresent()) {
 			return ResponseEntity.ok(superHeroRepository.findById(id).get());
@@ -52,9 +53,19 @@ public class SuperHeroController {
 
 	@Transactional
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody SuperHero superHero) {
-		superHeroRepository.save(superHero);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<?> insert(@RequestBody(required = true) SuperHero superHero) {
+
+		try {
+			if (superHero.getId() > 0) {
+				throw new RuntimeException();
+			}
+
+			superHeroRepository.save(superHero);
+			return ResponseEntity.ok(superHero.getId());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Must not have id");
+		}
+
 	}
 
 	@PutMapping
@@ -63,20 +74,23 @@ public class SuperHeroController {
 		Optional<SuperHero> optional = superHeroRepository.findById(superHero.getId());
 		if (optional.isPresent()) {
 			superHero.update(superHeroRepository.getOne(superHero.getId()));
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(superHero.getId());
 		}
 		return ResponseEntity.notFound().build();
 	}
 
 	@Transactional
-	@DeleteMapping
-	public ResponseEntity<?> deleteIds(@RequestBody List<Long> ids) {
+	@DeleteMapping("/{ids}")
+	public ResponseEntity<?> deleteIds(@PathVariable(required = true) List<Long> ids) {
 		for (long id : ids) {
 			Optional<SuperHero> optional = superHeroRepository.findById(id);
-			
+
 			if (optional.isPresent()) {
 				superHeroRepository.getOne(id).getGalleries().forEach((k, v) -> {
-					new File(v.getUrl()).delete();
+
+					String directory = new File("").getAbsolutePath().replace("\\", "/") + "/images/" + v.getName();
+					new File(directory).delete();
+					
 				});
 				superHeroRepository.deleteById(id);
 			}
