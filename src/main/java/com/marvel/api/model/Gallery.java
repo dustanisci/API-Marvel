@@ -30,8 +30,9 @@ public class Gallery {
 
 	}
 
-	public Gallery(String url, SuperHero superhero) {
+	public Gallery(String url, String namePhoto, SuperHero superhero) {
 		this.setUrl(url);
+		this.setName(namePhoto);
 		this.setSuperhero(superhero);
 	}
 	

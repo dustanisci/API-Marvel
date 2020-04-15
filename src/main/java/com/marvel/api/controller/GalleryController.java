@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,13 +38,13 @@ public class GalleryController {
 	}
 
 	@Transactional
-	@PostMapping
+	@PostMapping()
 	public ResponseEntity<?> insert(@ModelAttribute GalleryDto galleryDto) {
 		ListError listErrorImages = new ListError();
 
 		for (MultipartFile image : galleryDto.getImages()) {
-			try {
 
+			try {
 				String nameArchive = System.currentTimeMillis() + galleryDto.getExtension(image);
 				String directory = new File("").getAbsolutePath().replace("\\", "/") + "/images/" + nameArchive;
 
@@ -54,7 +53,7 @@ public class GalleryController {
 				fileOutputStream.close();
 
 				galleryDto.setUrl("http://localhost:8080/images/" + nameArchive);
-				galleryDto.setName(nameArchive);
+				galleryDto.setPhotoName(nameArchive);
 				galleryRepository.save(galleryDto.parseToGallery());
 
 			} catch (Exception e) {
@@ -62,7 +61,7 @@ public class GalleryController {
 			}
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).body(listErrorImages);
+		return ResponseEntity.ok(listErrorImages);
 	}
 
 	@Transactional
@@ -76,6 +75,7 @@ public class GalleryController {
 				String directory = new File("").getAbsolutePath().replace("\\", "/") + "/images/"
 						+ galleryRepository.getOne(id).getName();
 
+				System.out.println(directory);
 				new File(directory).delete();
 				galleryRepository.deleteById(id);
 			}

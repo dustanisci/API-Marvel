@@ -15,7 +15,7 @@ public class GalleryDto {
 	private long superHeroId;
 	private List<MultipartFile> images = new ArrayList<MultipartFile>();
 	private String url;
-	private String name;
+	private String photoName;
 
 	public long getSuperHeroId() {
 		return superHeroId;
@@ -42,15 +42,15 @@ public class GalleryDto {
 	}
 	
 	public String getName() {
-		return name;
+		return photoName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
 	}
 
 	public Gallery parseToGallery() {
-		return new Gallery(url, new SuperHero(superHeroId));
+		return new Gallery(url, photoName, new SuperHero(superHeroId));
 	}
 	
 	public String getExtension(MultipartFile image) throws ObjectNotFoundException {
