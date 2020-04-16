@@ -31,14 +31,26 @@ public class SuperHero {
 
 	@NotNull
 	@NotEmpty
+	@Column(length = 3000)
 	private String name;
 
+	@Column(length = 3000)
 	private String codename;
+	
 	private String earth;
+	
+	@Column(length = 3000)
 	private String job;
+	
+	@Column(length = 3000) 
 	private String genealogy;
+	
 	private String race;
+	
+	@Column(length = 3000)
 	private String team;
+	
+	@Column(length = 3000)
 	private String firstShow;
 
 	public SuperHero() {
