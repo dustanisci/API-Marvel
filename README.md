@@ -6,7 +6,7 @@ Ao realizar a exclusão é apresentado um pop-up de confirmação e no ato da cr
 <b>Tecnologias utilizadas:</b>
 <ul>
   <li>Webservice em Springboot</li>
-  <li>Front-end Angular 9<a href="https://github.com/dustanisci/marvel" target="_blank">(Neste meu outro repositório)</a></li>
+  <li>Front-end Angular 9 <a href="https://github.com/dustanisci/marvel" target="_blank">(Neste meu outro repositório)</a></li>
 </ul>
 <br/>
 <b>Imagens do funcionamento</b>
