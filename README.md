@@ -5,13 +5,8 @@ Ao realizar a exclusão é apresentado um pop-up de confirmação e no ato da cr
 
 <b>Tecnologias utilizadas:</b>
 <ul>
-  <li>Angular 9</li>
-  <li>HTML 5 </li>
-  <li>SCSS / CSS 3</li>
-  <li>TypeScript</li>
-  <li>JavaScript</li>
-  <li>Bootstrap</li>
-  <li>Webservice em Springboot <a href="https://github.com/dustanisci/api-marvel" target="_blank">(Neste meu outro repositório)</a></li>
+  <li>Webservice em Springboot</li>
+  <li>Front-end Angular 9<a href="https://github.com/dustanisci/marvel" target="_blank">(Neste meu outro repositório)</a></li>
 </ul>
 <br/>
 <b>Imagens do funcionamento</b>
