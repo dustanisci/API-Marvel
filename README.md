@@ -12,7 +12,7 @@ Ao gravar a criação ou atualização é mostrado um pop-up de salvo com sucess
 
 <b>Tecnologias utilizadas:</b>
 <ul>
-  <li>Webservice em Springboot</li>
+  <li>Webservice em Spring Boot</li>
   <li>Front-end Angular 9 <a href="https://github.com/dustanisci/marvel" target="_blank">(Neste meu outro repositório)</a></li>
 </ul>
 <br/>
